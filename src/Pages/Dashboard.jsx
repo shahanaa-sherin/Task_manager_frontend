@@ -17,7 +17,7 @@ const initialColumns = {
   },
 };
 
-function App() {
+function Dashboard() {
   const [columns, setColumns] = useState(initialColumns);
   const [newTask, setNewTask] = useState('');
   const [isAddingTask, setIsAddingTask] = useState({});
@@ -190,4 +190,4 @@ function App() {
   );
 }
 
-export default App;
+export default Dashboard;

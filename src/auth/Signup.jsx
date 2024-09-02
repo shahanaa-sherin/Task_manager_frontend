@@ -1,12 +1,20 @@
-import { useEffect } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import { useNavigate } from 'react-router-dom';
-
+import { Link, useNavigate } from 'react-router-dom';
+import GoogleLogin from 'react-google-login';
+const clientId = '347906447841-1cc48enl9m5ntpqbda5t75ai05subqod.apps.googleusercontent.com'
 const Signup = () => {
   const navigate = useNavigate();
 
-  // Define the validation schema using Yup
+  const onSuccess = (res) => {
+    console.log("Signup Successful", res.profileObj);
+    navigate('/dashboard'); // Redirect to dashboard after successful signup
+  };
+
+  const onFailure = (res) => {
+    console.log("Signup Failed", res);
+  };
+
   const validationSchema = Yup.object({
     name: Yup.string()
       .min(2, 'Name must be at least 2 characters')
@@ -22,31 +30,12 @@ const Signup = () => {
       .required('Confirm Password is required'),
   });
 
-  // Handle form submission
   const handleSubmit = (values, { setSubmitting }) => {
     setTimeout(() => {
       console.log(JSON.stringify(values, null, 2));
       setSubmitting(false);
       navigate('/login');
     }, 400);
-  };
-
-  useEffect(() => {
-    /* global google */
-    google.accounts.id.initialize({
-      client_id: 'YOUR_GOOGLE_CLIENT_ID', // Replace with your Google Client ID
-      callback: handleGoogleResponse
-    });
-    google.accounts.id.renderButton(
-      document.getElementById("google-signin-button"),
-      { theme: "outline", size: "large" }  // Customize button as needed
-    );
-  }, []);
-
-  const handleGoogleResponse = (response) => {
-    console.log("Google User Info:", response);
-    // Handle user info (e.g., send it to your backend)
-    navigate('/dashboard');  // Redirect after successful signup
   };
 
   return (
@@ -115,16 +104,24 @@ const Signup = () => {
           )}
         </Formik>
         <div className="mt-2 text-center">
-          <p>Or</p>
           <div id="google-signin-button" className="mt-2"></div>
         </div>
         <div className="mt-2 text-center">
-          <p>
-            Already have an account?{' '}
-            <a href="/login" className="text-blue-600 hover:underline">
+          <p>Already have an account?{' '}
+            <Link to="/login" className="text-blue-600 hover:underline">
               Log in
-            </a>
+            </Link>
           </p>
+          <div className="mt-3">
+           <GoogleLogin
+           clientId={clientId}
+           buttonText="Sign Up with Google"
+           onSuccess={onSuccess}
+           onFailure={onFailure}
+           cookiePolicy={'single_host_origin'}
+           isSignedIn={true}
+           />
+          </div>
         </div>
       </div>
     </div>
