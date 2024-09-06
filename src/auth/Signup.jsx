@@ -2,7 +2,7 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { Link, useNavigate } from 'react-router-dom';
 import GoogleLogin from 'react-google-login';
-const clientId = '347906447841-1cc48enl9m5ntpqbda5t75ai05subqod.apps.googleusercontent.com'
+const clientId = '347906447841-vkqr7ogvc61clidss6qo37bbvia2fcn9.apps.googleusercontent.com'
 const Signup = () => {
   const navigate = useNavigate();
 

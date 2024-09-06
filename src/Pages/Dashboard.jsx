@@ -116,7 +116,7 @@ function Dashboard() {
                 <div
                   {...provided.droppableProps}
                   ref={provided.innerRef}
-                  className="bg-gray-200 p-4 rounded-lg min-h-[200px] shadow-lg flex flex-col justify-between"
+                  className="bg-gray-200 p-4 rounded-lg min-h-[150px] shadow-lg flex flex-col justify-between"
                 >
                   <div>
                     <h2 className="text-lg font-semibold mb-2">{column.name}</h2>

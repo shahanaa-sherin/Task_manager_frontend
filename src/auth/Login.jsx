@@ -1,41 +1,40 @@
 /* eslint-disable react/no-unescaped-entities */
-import { Formik, Form, Field, ErrorMessage } from "formik";
-import * as Yup from "yup";
-import { Link, useNavigate } from "react-router-dom";
-import {GoogleLogin} from 'react-google-login'
+import { Formik, Form, Field, ErrorMessage } from 'formik';
+import * as Yup from 'yup';
+import { Link, useNavigate } from 'react-router-dom';
+import { GoogleLogin } from 'react-google-login';
 
-const clientId = '347906447841-1cc48enl9m5ntpqbda5t75ai05subqod.apps.googleusercontent.com'
+const clientId = '347906447841-vkqr7ogvc61clidss6qo37bbvia2fcn9.apps.googleusercontent.com';
+
+// Define the validation schema using Yup
+const validationSchema = Yup.object({
+  email: Yup.string()
+    .email("Invalid email address")
+    .required("Email is required"),
+  password: Yup.string()
+    .min(6, "Password must be at least 6 characters")
+    .required("Password is required"),
+});
+
 const Login = () => {
   const navigate = useNavigate();
 
-  const onSuccess = (res) => {
-    console.log("Login Successful", res.profileObj);
-    navigate("/dashboard"); // Redirect to dashboard after successful login
-  };
-
-  const onFailure = (res) => {
-    console.log("Login Failed", res);
-  };
-
-
-
-  // Define the validation schema using Yup
-  const validationSchema = Yup.object({
-    email: Yup.string()
-      .email("Invalid email address")
-      .required("Email is required"),
-    password: Yup.string()
-      .min(6, "Password must be at least 6 characters")
-      .required("Password is required"),
-  });
-
-  // Handle form submission
+  // Define handleSubmit function
   const handleSubmit = (values, { setSubmitting }) => {
     setTimeout(() => {
       console.log(JSON.stringify(values, null, 2));
       setSubmitting(false);
       navigate("/dashboard"); // Redirect to dashboard after successful login
     }, 400);
+  };
+
+  const onSuccess = (res) => {
+    console.log("Login Successful", res.profileObj);
+    navigate("/dashboard"); // Redirect to dashboard after successful login
+  };
+
+  const onFailure = (response) => {
+    console.log("Login Failed", response);
   };
 
   return (
@@ -103,14 +102,14 @@ const Login = () => {
             </Link>
           </p>
           <div className="mt-3">
-           <GoogleLogin 
-           clientId={clientId}
-           buttonText="Login with Google"
-           onSuccess={onSuccess}
-           onFailure={onFailure}
-           cookiePolicy={'single_host_origin'}
-           isSignedIn={true}
-           />
+            <GoogleLogin
+              clientId={clientId}
+              buttonText="Login with Google"
+              onSuccess={onSuccess}
+              onError={onFailure}
+              cookiePolicy={'single_host_origin'}
+              isSignedIn={true}
+            />
           </div>
         </div>
       </div>
